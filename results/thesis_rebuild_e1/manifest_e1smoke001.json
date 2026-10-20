@@ -1,0 +1,31 @@
+{
+  "run_id": "e1smoke001",
+  "experiment": "E1 static criticism validation",
+  "n_train": 500,
+  "n_test": 200,
+  "n_trees": 30,
+  "k_criticisms": [
+    1,
+    3
+  ],
+  "seeds": [
+    1001,
+    1002
+  ],
+  "data_seed_fixed_across_model_seeds": 42,
+  "features": [
+    "x1",
+    "x2"
+  ],
+  "evaluation": "1-nearest-exemplar proxy; fidelity = agreement with RF prediction on held-out samples",
+  "software_versions": {
+    "python": "3.11.16",
+    "river": "0.21.0",
+    "protree": "0.0.1",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.1"
+  },
+  "git_commit": "a75f4e878e2b097a3e09059a2d28033515a241c6",
+  "warning": "The nearest-exemplar evaluation is an operational E1 proxy, not a claim of equivalence to every fidelity metric in the RACE-P paper."
+}

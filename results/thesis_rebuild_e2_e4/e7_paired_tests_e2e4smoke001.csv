@@ -1,0 +1,4 @@
+extent,magnitude,schedule,chunk_size,comparison,n_seeds,mean_paired_difference,median_paired_difference,std_paired_difference,fraction_positive,wilcoxon_statistic,wilcoxon_p_unadjusted,wilcoxon_p_holm
+0.1,medium,abrupt,1000,criticism_vs_prototype,1,0.0893421052631579,0.0893421052631579,,1.0,,,
+0.1,medium,abrupt,1000,criticism_vs_random,1,-0.05000000000000002,-0.05000000000000002,,0.0,,,
+0.1,medium,abrupt,1000,criticism_vs_error_criticism,1,-0.49275793650793653,-0.49275793650793653,,0.0,,,

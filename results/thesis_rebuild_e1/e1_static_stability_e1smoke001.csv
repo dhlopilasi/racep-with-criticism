@@ -1,0 +1,6 @@
+method,role,k_criticisms,n_seeds,mean_pairwise_jaccard,std_pairwise_jaccard
+APETE,prototype,0,2,0.09090909090909091,
+MMD_Critic,criticism,1,2,0.0,
+MMD_Critic,criticism,3,2,0.0,
+Random,criticism,1,2,0.0,
+Random,criticism,3,2,0.0,

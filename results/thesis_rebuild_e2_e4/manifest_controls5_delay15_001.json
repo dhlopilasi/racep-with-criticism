@@ -1,0 +1,68 @@
+{
+  "run_id": "controls5_delay15_001",
+  "profile": "smoke",
+  "seed_start": 1001,
+  "n_seeds_per_scenario_grid": 1,
+  "scenario_offset": 0,
+  "max_streams": null,
+  "scenario_grid_total": 5,
+  "scenario_grid_batch_count": 5,
+  "chunk_size": 1000,
+  "n_chunks": 25,
+  "reference_chunks": 5,
+  "calibration_chunk_range_half_open": [
+    5,
+    10
+  ],
+  "n_criticisms": 5,
+  "mmd_critic": {
+    "kernel": "RBF",
+    "gamma_rule": "scale on initial stationary chunk",
+    "max_candidates": 512,
+    "max_current_reference": 1024,
+    "diversity_weight": 0.05
+  },
+  "k_values": [
+    1.0,
+    2.0,
+    3.0,
+    4.0
+  ],
+  "w_values": [
+    0,
+    1,
+    3,
+    5
+  ],
+  "matching_tolerance_chunks": 3,
+  "racep_native": {
+    "const": 3.0,
+    "grace_period": 10
+  },
+  "adwin": {
+    "delta": 0.002
+  },
+  "page_hinkley": {
+    "delta": 0.005,
+    "threshold": 50.0,
+    "alpha": 0.9999,
+    "min_instances": 30,
+    "mode": "up_when_supported"
+  },
+  "c_signals": [
+    "c_mean_abs_witness",
+    "c_mean_nearest_prototype_distance",
+    "c_criticism_reassignment_impact",
+    "c_criticism_fraction"
+  ],
+  "software_versions": {
+    "python": "3.11.16",
+    "river": "0.21.0",
+    "protree": "0.0.1",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.1"
+  },
+  "git_commit": "a75f4e878e2b097a3e09059a2d28033515a241c6",
+  "note": "Validate API/output on profile=smoke before pilot/final; native RaceP alarm is also recorded at const=3.0."
+}

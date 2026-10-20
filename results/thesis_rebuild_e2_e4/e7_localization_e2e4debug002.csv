@@ -1,0 +1,2 @@
+scenario_id,seed,extent,magnitude,schedule,chunk_size,criticism_region_fraction,prototype_region_fraction,random_region_fraction,n_evaluated_chunks,error_region_fraction,criticism_minus_prototype,criticism_minus_random,criticism_minus_error
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,0.1,medium,abrupt,1000,0.07500000000000001,0.0131578947368421,0.17500000000000002,8,0.6177579365079365,0.061842105263157914,-0.1,-0.5427579365079365

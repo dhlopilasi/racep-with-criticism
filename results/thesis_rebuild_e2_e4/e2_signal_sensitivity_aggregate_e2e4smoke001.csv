@@ -1,0 +1,8 @@
+stream_scope,drift_kind,schedule,extent,magnitude,chunk_size,signal,roc_auc_concept_drift_mean,roc_auc_concept_drift_std,roc_auc_concept_drift_count,cohens_d_post_vs_pre_mean,cohens_d_post_vs_pre_std,cohens_d_post_vs_pre_count,post_minus_pre_mean,post_minus_pre_std,post_minus_pre_count
+local,concept,abrupt,0.1,medium,1000,c_criticism_fraction,0.5,,1,1.243163121016122,,1,8.673617379884035e-19,,1
+local,concept,abrupt,0.1,medium,1000,c_criticism_reassignment_impact,0.4943181818181818,,1,-0.04493686839637753,,1,-0.006818181818181807,,1
+local,concept,abrupt,0.1,medium,1000,c_error_mean_abs_witness,0.48863636363636365,,1,-0.10485447512350278,,1,-0.0021005453013795625,,1
+local,concept,abrupt,0.1,medium,1000,c_mean_abs_witness,0.3977272727272727,,1,-0.5394390376782964,,1,-0.014800408704235657,,1
+local,concept,abrupt,0.1,medium,1000,c_mean_nearest_prototype_distance,0.5,,1,-0.01111347736850278,,1,-0.0005194696855458925,,1
+local,concept,abrupt,0.1,medium,1000,c_random_mean_abs_witness,0.3181818181818182,,1,-0.5859235465990074,,1,-0.013372095019808766,,1
+local,concept,abrupt,0.1,medium,1000,p_pri,0.6022727272727273,,1,-0.014990927152912118,,1,-4.9602761438087214e-05,,1

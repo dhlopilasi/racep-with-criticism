@@ -1,0 +1,8 @@
+stream_scope,drift_kind,schedule,extent,magnitude,chunk_size,signal,roc_auc_concept_drift_mean,roc_auc_concept_drift_std,roc_auc_concept_drift_count,cohens_d_post_vs_pre_mean,cohens_d_post_vs_pre_std,cohens_d_post_vs_pre_count,post_minus_pre_mean,post_minus_pre_std,post_minus_pre_count
+local,concept,abrupt,0.1,medium,1000,c_criticism_fraction,0.5,,1,1.243163121016122,,1,8.673617379884035e-19,,1
+local,concept,abrupt,0.1,medium,1000,c_criticism_reassignment_impact,0.5,,1,,,0,0.0,,1
+local,concept,abrupt,0.1,medium,1000,c_error_mean_abs_witness,0.25,,1,-0.9978657755103663,,1,-0.07537182326645053,,1
+local,concept,abrupt,0.1,medium,1000,c_mean_abs_witness,0.23863636363636365,,1,-0.9981806664776023,,1,-0.024211586528702034,,1
+local,concept,abrupt,0.1,medium,1000,c_mean_nearest_prototype_distance,0.625,,1,0.5385776768847549,,1,0.026323912672220146,,1
+local,concept,abrupt,0.1,medium,1000,c_random_mean_abs_witness,0.18181818181818182,,1,-1.2284812957969768,,1,-0.06900120550709654,,1
+local,concept,abrupt,0.1,medium,1000,p_pri,0.5,,1,,,0,0.0,,1

@@ -1,0 +1,8 @@
+scenario_id,seed,stream_scope,drift_kind,schedule,extent,magnitude,chunk_size,signal,n_before,n_during_after,pre_mean,post_mean,post_minus_pre,cohens_d_post_vs_pre,roc_auc_concept_drift,mann_whitney_p_unadjusted,auc_not_defined_no_concept_change
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,local,concept,abrupt,0.1,medium,1000,p_pri,11,8,0.0,0.0,0.0,,0.5,1.0,False
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,local,concept,abrupt,0.1,medium,1000,c_mean_abs_witness,11,8,0.588571214743681,0.564359628214979,-0.024211586528702034,-0.9981806664776023,0.23863636363636365,0.06202534995104655,False
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,local,concept,abrupt,0.1,medium,1000,c_mean_nearest_prototype_distance,11,8,0.2174164260951061,0.24374033876732626,0.026323912672220146,0.5385776768847549,0.625,0.3950411473631288,False
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,local,concept,abrupt,0.1,medium,1000,c_criticism_reassignment_impact,11,8,0.0,0.0,0.0,,0.5,1.0,False
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,local,concept,abrupt,0.1,medium,1000,c_criticism_fraction,11,8,0.004999999999999999,0.005,8.673617379884035e-19,1.243163121016122,0.5,1.0,False
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,local,concept,abrupt,0.1,medium,1000,c_random_mean_abs_witness,11,8,0.3420575485939692,0.27305634308687265,-0.06900120550709654,-1.2284812957969768,0.18181818181818182,0.02034876028684078,False
+local_concept_abrupt_e0.1_medium_cs1000_seed1001,1001,local,concept,abrupt,0.1,medium,1000,c_error_mean_abs_witness,11,8,0.24474107988189642,0.16936925661544588,-0.07537182326645053,-0.9978657755103663,0.25,0.07541478129713425,False

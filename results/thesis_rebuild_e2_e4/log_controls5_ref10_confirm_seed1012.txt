@@ -1,0 +1,212 @@
+[1/5] seed=1012 scope=local type=concept schedule=abrupt extent=0.1 magnitude=medium
+
+[DEBUG] chunk=0
+Class counts: {1: 512, 0: 488}
+previous raw type: dict
+  class keys: []
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+Flattened previous: 0 prototypes; labels= []
+Flattened current: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: None
+
+[DEBUG] chunk=1
+Class counts: {0: 516, 1: 484}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+Flattened previous: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.001712499999999997
+
+[DEBUG] chunk=2
+Class counts: {0: 508, 1: 492}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=10
+Flattened previous: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 22 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.0015439393939393892
+Native RACE-P vs external P(k=3) alarm agreement: 1.000
+[2/5] seed=1012 scope=global type=concept schedule=abrupt extent=1.0 magnitude=medium
+
+[DEBUG] chunk=0
+Class counts: {1: 512, 0: 488}
+previous raw type: dict
+  class keys: []
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+Flattened previous: 0 prototypes; labels= []
+Flattened current: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: None
+
+[DEBUG] chunk=1
+Class counts: {0: 516, 1: 484}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+Flattened previous: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.001712499999999997
+
+[DEBUG] chunk=2
+Class counts: {0: 508, 1: 492}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=10
+Flattened previous: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 22 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.0015439393939393892
+Native RACE-P vs external P(k=3) alarm agreement: 1.000
+[3/5] seed=1012 scope=mixed type=concept schedule=abrupt extent=0.1 magnitude=medium
+
+[DEBUG] chunk=0
+Class counts: {1: 512, 0: 488}
+previous raw type: dict
+  class keys: []
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+Flattened previous: 0 prototypes; labels= []
+Flattened current: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: None
+
+[DEBUG] chunk=1
+Class counts: {0: 516, 1: 484}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+Flattened previous: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.001712499999999997
+
+[DEBUG] chunk=2
+Class counts: {0: 508, 1: 492}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=10
+Flattened previous: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 22 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.0015439393939393892
+Native RACE-P vs external P(k=3) alarm agreement: 1.000
+[4/5] seed=1012 scope=local type=virtual schedule=abrupt extent=0.1 magnitude=medium
+
+[DEBUG] chunk=0
+Class counts: {1: 512, 0: 488}
+previous raw type: dict
+  class keys: []
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+Flattened previous: 0 prototypes; labels= []
+Flattened current: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: None
+
+[DEBUG] chunk=1
+Class counts: {0: 516, 1: 484}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+Flattened previous: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.001712499999999997
+
+[DEBUG] chunk=2
+Class counts: {0: 508, 1: 492}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=10
+Flattened previous: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 22 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.0015439393939393892
+Native RACE-P vs external P(k=3) alarm agreement: 1.000
+[5/5] seed=1012 scope=global type=stationary schedule=abrupt extent=1.0 magnitude=medium
+
+[DEBUG] chunk=0
+Class counts: {1: 512, 0: 488}
+previous raw type: dict
+  class keys: []
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+Flattened previous: 0 prototypes; labels= []
+Flattened current: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: None
+
+[DEBUG] chunk=1
+Class counts: {0: 516, 1: 484}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=12
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+Flattened previous: 24 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.001712499999999997
+
+[DEBUG] chunk=2
+Class counts: {0: 508, 1: 492}
+previous raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=8
+  class=1, type=list, shape=None, len=7
+current raw type: dict
+  class keys: [0, 1]
+  class=0, type=list, shape=None, len=12
+  class=1, type=list, shape=None, len=10
+Flattened previous: 15 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+Flattened current: 22 prototypes; labels= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+PRI metric_value: 0.0015439393939393892
+Native RACE-P vs external P(k=3) alarm agreement: 1.000
+
+Saved outputs under: results/thesis_rebuild_e2_e4
