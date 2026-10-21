@@ -360,20 +360,26 @@ def run_one_stream(
                 page_hinkley_chunk_count[chunk_id] += 1
         external_detector_ms = (time.perf_counter() - external_started) * 1000.0
         
-        # Warm-up: train the RACE-P model on the initial reference chunk.
-        if chunk_id == 0:
-            for x_i, y_i in zip(x_block, y_block):
-                racep_model.learn_one(x_i, y_i)
+        # Match the official Protree usage order:
+        # train the model on the current chunk before updating RACE-P.
+        racep_model_update_started = time.perf_counter()
 
+        for x_i, y_i in zip(x_block, y_block):
+            racep_model.learn_one(x_i, y_i)
+
+        racep_model_update_ms = (
+            time.perf_counter() - racep_model_update_started
+        ) * 1000.0
+
+        # Update the original RACE-P detector.
         racep_started = time.perf_counter()
+
         detector.update(x_block, y_block)
         racep_native_chunk_flags[chunk_id] = bool(detector.drift_detected)
-        racep_ms = (time.perf_counter() - racep_started) * 1000.0
 
-        # Update the RACE-P model only after the current chunk has been evaluated.
-        if chunk_id >= 1:
-            for x_i, y_i in zip(x_block, y_block):
-                racep_model.learn_one(x_i, y_i)
+        racep_ms = (
+            time.perf_counter() - racep_started
+        ) * 1000.0
 
         p_signal = detector.metric_value
         if isinstance(p_signal, dict):
@@ -547,6 +553,7 @@ def run_one_stream(
             "gt_concept_drift": bool(block["gt_concept_drift"].any()),
             "gt_distribution_shift": bool(block["gt_distribution_shift"].any()),
             "model_update_ms": model_update_ms,
+            "racep_model_update_ms": racep_model_update_ms,
             "racep_update_ms": racep_ms,
             "criticism_update_ms": criticism_ms,
             "total_chunk_processing_ms": elapsed_ms,

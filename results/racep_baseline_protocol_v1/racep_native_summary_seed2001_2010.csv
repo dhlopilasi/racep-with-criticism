@@ -1,0 +1,6 @@
+stream_scope,drift_kind,ground_truth_class,n_runs,runs_with_alarm,scenario_alarm_rate,total_alarm_chunks,mean_alarm_chunks_per_run,mean_delay_chunks_when_detected,metric_interpretation
+global,concept,global,10,2,0.2,2,0.2,1.0,event detection rate
+global,stationary,none,10,5,0.5,6,0.6,,false-alarm run rate
+local,concept,local,10,4,0.4,12,1.2,2.75,event detection rate
+local,virtual,none,10,3,0.3,12,1.2,,false-alarm run rate
+mixed,concept,drift,10,0,0.0,0,0.0,,event detection rate

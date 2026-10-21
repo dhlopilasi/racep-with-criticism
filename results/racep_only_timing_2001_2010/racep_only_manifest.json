@@ -1,0 +1,47 @@
+{
+  "benchmark": "RACE-P only; no criticism or external drift detectors",
+  "seed_start": 2001,
+  "n_seeds": 10,
+  "seeds": [
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010
+  ],
+  "n_chunks": 30,
+  "chunk_size": 1000,
+  "reference_chunks": 10,
+  "drift_start_chunk": 20,
+  "prototype_selector": "APete",
+  "prototype_selector_alpha": 0.01,
+  "measure": "prototype_reassignment_impact",
+  "strategy": "total",
+  "grace_period": 20,
+  "const": 3.0,
+  "model_update_order": "learn current chunk, then detector.update",
+  "timings_exclude": [
+    "stream generation",
+    "model and detector initialization",
+    "criticism",
+    "ADWIN",
+    "Page-Hinkley",
+    "separate error-monitoring model",
+    "CSV writing"
+  ],
+  "git_head": "c0a7082d282d3ca652bce97a347c73d548bc34d7",
+  "benchmark_script_sha256": "25d8ad1198b9abc0d5f3e7c7afc401ea4c9a6db6081f64a4b6dbe8230a8afbc6",
+  "software_versions": {
+    "python": "3.11.16",
+    "river": "0.21.0",
+    "protree": "0.0.1",
+    "numpy": "1.26.4",
+    "pandas": "2.3.3"
+  },
+  "note": "A controlled five-scenario benchmark for this thesis; not a claim of reproducing every experiment in the paper."
+}

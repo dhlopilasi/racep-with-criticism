@@ -34,7 +34,7 @@ def get_x_belonging_to_cls(x: TDataBatch, y: TTarget, cls: int | str) -> TDataBa
     if isinstance(x, pd.DataFrame) and isinstance(y, (np.ndarray, pd.DataFrame)):
         if isinstance(y, np.ndarray):
             return x[y == cls]
-        return x.iloc[(y == cls).any(axis=1).to_numpy()]
+        return x[(y == cls).any(axis=1)]
     if isinstance(x, (list, tuple)) and isinstance(y, (np.ndarray, list, tuple)):
         return [x_ for x_, y_ in zip(x, y) if y_ == cls]
     raise ValueError("x and y have to both be of the same type, one of pd.DataFrame or list")

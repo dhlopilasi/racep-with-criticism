@@ -2,7 +2,7 @@
 
 ```bash
 cd ~/Documents/Classroom/KLTN/protree
-source .venv-racep/bin/activate
+source .venv-racep/bin/activate && conda deactivate
 
 tmux new -s racep
 python experiments/run_racep_sine.py > logs/racep_sine_run001.log 2>&1

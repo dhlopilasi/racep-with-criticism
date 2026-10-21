@@ -162,13 +162,14 @@ class IExplainer(ABC):
         if isinstance(y, np.ndarray):
             return set(y.tolist())
 
+
 class G_KM(IExplainer):
     def __init__(self, model: TModel, n_prototypes: int = 3, *args, **kwargs) -> None:
         super().__init__(model, *args, **kwargs)
-        self.n_prototypes = int(n_prototypes)   
+        self.n_prototypes = int(n_prototypes)
 
     def _find_classwise_prototype(self, matrix: np.ndarray, prototypes: list[int]) -> int:
-        mask = np.isin(range(matrix.shape[0]), prototypes)
+        mask = np.in1d(range(matrix.shape[0]), prototypes)
         current_partial_distances = np.minimum.reduce(matrix[mask], axis=0) if prototypes else np.inf
         candidate_distances = np.minimum(matrix[~mask], current_partial_distances).sum(axis=1)
         return np.where(~mask)[0][np.argmin(candidate_distances)]
@@ -182,8 +183,7 @@ class G_KM(IExplainer):
         return prototypes
 
     def select_prototypes(self, x: TDataBatch, y: TTarget | None = None) -> TPrototypes:
-        if y is None:
-            y = self.model.get_model_predictions(x)
+        y = y or self.model.get_model_predictions(x)
 
         classes = self.get_classes(y)
         prototypes = {cls: [] for cls in classes}
@@ -207,7 +207,7 @@ class SM_A(IExplainer):
             improvement = matrix.shape[0] - np.sum(matrix[idx])
             return idx, improvement
 
-        mask = np.isin(range(matrix.shape[0]), prototypes)
+        mask = np.in1d(range(matrix.shape[0]), prototypes)
         current_partial_distances = matrix[mask].min(axis=0)
         original_distance = current_partial_distances.sum()
         candidates = matrix[~mask]
@@ -228,8 +228,7 @@ class SM_A(IExplainer):
         return prototype[1], prototype[2]
 
     def select_prototypes(self, x: TDataBatch, y: TTarget | None = None) -> TPrototypes:
-        if y is None:
-            y = self.model.get_model_predictions(x)
+        y = y or self.model.get_model_predictions(x)
 
         classes = self.get_classes(y)
         prototypes = {cls: [] for cls in classes}
@@ -268,7 +267,7 @@ class SG(SM_A):
                         ) -> tuple[int | str, int, float]:
         prototype: tuple[int | str, int] = (-1, -1)
         for cls in prototypes:
-            class_x = x[y == cls]
+            class_x = x[y.values == cls]
             for idx in range(len(class_x)):
                 if idx not in prototypes[cls]:
                     temp_prototypes = prototypes.copy()
@@ -281,14 +280,13 @@ class SG(SM_A):
         return prototype[1], prototype[2], accuracy
 
     def select_prototypes(self, x: TDataBatch, y: TTarget | None = None) -> TPrototypes:
-        if y is None:
-            y = self.model.get_model_predictions(x)
+        y = y or self.model.get_model_predictions(x)
 
         classes = self.get_classes(y)
         prototypes = {cls: [] for cls in classes}
         accuracy = 0
 
-        for _ in range(self.n_prototypes):
+        for _ in range(self.model.n_prototypes):
             cls, idx, accuracy = self._find_prototype(prototypes, x, y, accuracy)
             prototypes[cls].append(idx)
 
@@ -317,8 +315,7 @@ class APete(SM_A):
         return prototype_cls, prototype_idx, delta_prim
 
     def select_prototypes(self, x: TDataBatch, y: TTarget | None = None) -> TPrototypes:
-        if y is None:
-            y = self.model.get_model_predictions(x)
+        y = y or self.model.get_model_predictions(x)
 
         prev_improvement = 0.0
         classes = self.get_classes(y)
@@ -336,29 +333,3 @@ class APete(SM_A):
             if improvement == 0 or np.abs(prev_improvement - improvement) / improvement <= self.alpha:
                 return protos
             prev_improvement = improvement
-
-    def explain(
-        self,
-        x: TDataBatch,
-        y: TTarget | None = None,
-        n_criticisms: int = 3,
-    ) -> tuple[TPrototypes, TPrototypes]:
-        """Select prototypes and criticisms in one call.
-
-        Args:
-            x: data batch.
-            y: class labels; if None, model predictions are used.
-            n_criticisms: number of criticisms per class.
-
-        Returns:
-            Tuple of (prototypes, criticisms), each a dict mapping class
-            labels to DataFrames of representative / surprising examples.
-
-        Example::
-
-            explainer = APete(model=random_forest)
-            prototypes, criticisms = explainer.explain(x, n_criticisms=3)
-        """
-        prototypes = self.select_prototypes(x, y)
-        criticisms = self.select_criticisms(x, prototypes, y, n_criticisms=n_criticisms)
-        return prototypes, criticisms

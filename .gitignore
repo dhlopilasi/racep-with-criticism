@@ -164,3 +164,21 @@ cython_debug/
 
 # Weights&Biases
 wandb/
+# Generated thesis experiment outputs: retain locally, add selected summaries explicitly.
+/logs/*.log
+/logs/**/*.log
+/results/racep_baseline_ordercheck_smoke/
+/results/racep_baseline_protocol_v1/criticism_details_racep_baseline_seed*.csv
+/results/racep_baseline_protocol_v1/detection_metrics_racep_baseline_seed*.csv
+/results/racep_baseline_protocol_v1/four_zone_chunks_racep_baseline_seed*.csv
+/results/racep_baseline_protocol_v1/manifest_racep_baseline_seed*.json
+/results/racep_baseline_protocol_v1/raw_signals_racep_baseline_seed*.csv
+/results/racep_only_timing_smoke/
+/results/racep_only_timing_2001_2010/racep_only_raw*.csv
+/results/racep_only_timing_2001_2010/racep_only_scenario_summary_seed*.csv
+
+# Local Python virtual environments
+/.venv/
+/.venv-racep/
+/.research-venv/
+/.venv-research/
