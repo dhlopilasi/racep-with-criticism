@@ -24,6 +24,7 @@ from sklearn.metrics import pairwise_distances
 
 from experiments.thesis_rebuild.controlled_streams import Scenario, generate_controlled_stream
 from experiments.thesis_rebuild.cross_window_mmd_critic import CrossWindowMMDCritic, resolve_rbf_gamma
+from protree.criticism.mmd_critic import MMDCritic
 from experiments.thesis_rebuild.evaluation import (
     above_threshold,
     combine_p_c,
@@ -316,6 +317,10 @@ def run_one_stream(
         max_current_reference=1024,
         diversity_weight=0.05,
     )
+    original_critic = MMDCritic(
+        n_criticisms=n_criticisms,
+        gamma=gamma,
+    )
 
     raw_rows, detail_rows = [], []
     n_chunks = len(frame) // chunk_size
@@ -442,6 +447,13 @@ def run_one_stream(
         critic_positions = np.empty(0, dtype=int)
         critic_abs = np.empty(0)
         critic_witness = np.empty(0)
+        original_positions = np.empty(0, dtype=int)
+        original_abs = np.empty(0)
+        original_witness = np.empty(0)
+        c_mmd_original_mean_abs_witness = np.nan
+        c_mmd_original_mean_nearest_prototype_distance = np.nan
+        c_mmd_original_criticism_reassignment_impact = np.nan
+        c_mmd_original_criticism_fraction = np.nan
         random_witness = np.nan
         error_witness = np.nan
         ref_region_fraction = np.nan
@@ -456,9 +468,45 @@ def run_one_stream(
             Z_current = np.column_stack([X, y.astype(float)])
             Z_prev_proto = np.column_stack([prev_X, prev_y])
             selected = critic.select_criticisms(Z_current, Z_prev_proto, seed=seed + chunk_id)
+
             critic_positions = selected.positions
             critic_abs = selected.abs_witness
             critic_witness = selected.witness
+
+            # Original MMD-Critic: current data vs current-chunk prototypes.
+            if len(curr_positions):
+                prototype_idx = np.unique(curr_positions)
+                original_positions_list, original_abs, original_witness = (
+                    original_critic.select(Z_current, prototype_idx)
+                )
+                original_positions = np.asarray(original_positions_list, dtype=int)
+
+                # Verify that criticisms are valid and exclude RACE-P prototypes.
+                overlap = np.intersect1d(original_positions, prototype_idx)
+                expected_n = min(n_criticisms, len(X) - len(prototype_idx))
+
+                assert len(original_positions) == expected_n, (
+                    f"Expected {expected_n} criticisms, got {len(original_positions)}"
+                )
+                assert len(overlap) == 0, (
+                    f"Criticisms overlap RACE-P prototypes: {overlap.tolist()}"
+                )
+                assert np.all(np.isfinite(original_abs)), "Non-finite absolute witness"
+                assert np.all(np.isfinite(original_witness)), "Non-finite witness"
+
+                print(
+                    f"[MMD-Critic verified] chunk={chunk_id}, "
+                    f"prototypes={len(prototype_idx)}, "
+                    f"criticisms={len(original_positions)}, "
+                    f"overlap={len(overlap)}"
+                )
+            c_mmd_original_mean_abs_witness = (
+                float(np.mean(original_abs)) if len(original_abs) else np.nan
+            )
+            c_mmd_original_criticism_fraction = (
+                float(len(original_positions) / max(len(X), 1))
+            )
+
             c_witness = float(np.mean(critic_abs)) if len(critic_abs) else np.nan
             c_fraction = float(len(critic_positions) / max(len(X), 1))
             c_distance = float(pairwise_distances(X[critic_positions], prev_X).min(axis=1).mean()) if len(critic_positions) else np.nan
@@ -469,23 +517,64 @@ def run_one_stream(
                 valid = np.isfinite(old_labels) & np.isfinite(new_labels)
                 c_reassignment = float(np.mean(old_labels[valid] != new_labels[valid])) if np.any(valid) else np.nan
 
-            # Matched random-control score from the same candidate pool.
+            if len(original_positions) and len(curr_X):
+                c_mmd_original_mean_nearest_prototype_distance = float(
+                    pairwise_distances(X[original_positions], curr_X).min(axis=1).mean()
+                )
+                old_original_labels = _nearest_prototype_labels(
+                    X[original_positions], prev_X, prev_y
+                )
+                new_original_labels = _nearest_prototype_labels(
+                    X[original_positions], curr_X, curr_y
+                )
+                valid_original = np.isfinite(old_original_labels) & np.isfinite(new_original_labels)
+                c_mmd_original_criticism_reassignment_impact = (
+                    float(np.mean(old_original_labels[valid_original] != new_original_labels[valid_original]))
+                    if np.any(valid_original) else np.nan
+                )
+
+            # Baseline controls: use the same candidate pool as original MMD-Critic.
+            # Candidates are current-chunk instances excluded from the current prototype set.
             rng = np.random.default_rng(seed * 100_003 + chunk_id)
-            pool = selected.candidate_positions
-            if len(pool):
-                random_local = rng.choice(len(pool), min(n_criticisms, len(pool)), replace=False)
-                random_positions = pool[random_local]
-                random_witness = float(np.mean(selected.candidate_abs_witness[random_local]))
-                random_region_fraction = float(block.iloc[random_positions]["gt_affected_region"].mean())
-                err = np.asarray(errors, dtype=float)
-                misclassified = pool[np.isfinite(err[pool]) & (err[pool] > 0.5)]
-                n_error_criticism = int(len(misclassified))
-                if len(misclassified):
-                    # Error criticism uses misclassified candidates only, with variable K.
-                    pool_lookup = {int(pos): j for j, pos in enumerate(pool)}
-                    local_ids = [pool_lookup[int(pos)] for pos in misclassified]
-                    error_witness = float(np.mean(selected.candidate_abs_witness[local_ids]))
-                    error_region_fraction = float(block.iloc[misclassified]["gt_affected_region"].mean())
+            if len(curr_positions):
+                prototype_idx = np.unique(curr_positions)
+                pool = np.setdiff1d(
+                    np.arange(len(X)),
+                    prototype_idx,
+                    assume_unique=False,
+                )
+                if len(pool):
+                    kernel = original_critic._kernel_matrix(Z_current)
+                    witness_all = original_critic._witness_scores(
+                        kernel, prototype_idx
+                    )
+                    candidate_abs_witness = np.abs(witness_all[pool])
+
+                    random_local = rng.choice(
+                        len(pool),
+                        min(n_criticisms, len(pool)),
+                        replace=False,
+                    )
+                    random_positions = pool[random_local]
+                    random_witness = float(
+                        np.mean(candidate_abs_witness[random_local])
+                    )
+                    random_region_fraction = float(
+                        block.iloc[random_positions]["gt_affected_region"].mean()
+                    )
+
+                    err = np.asarray(errors, dtype=float)
+                    misclassified = pool[
+                        np.isfinite(err[pool]) & (err[pool] > 0.5)
+                    ]
+                    n_error_criticism = int(len(misclassified))
+                    if len(misclassified):
+                        error_witness = float(
+                            np.mean(np.abs(witness_all[misclassified]))
+                        )
+                        error_region_fraction = float(
+                            block.iloc[misclassified]["gt_affected_region"].mean()
+                        )
 
             curr_proto_region_fraction = (
                 float(np.mean(block.iloc[curr_positions]["gt_affected_region"].to_numpy(dtype=bool)))
@@ -498,6 +587,7 @@ def run_one_stream(
                 detail_rows.append({
                     "seed": seed,
                     "chunk": chunk_id,
+                    "method": "cross_window_mmd_critic",
                     "t": int(row["t"]),
                     "critic_position": int(pos),
                     "x1": float(row["x1"]),
@@ -506,6 +596,27 @@ def run_one_stream(
                     "witness": float(critic_witness[j]),
                     "abs_witness": float(critic_abs[j]),
                     "nearest_previous_prototype_distance": float(pairwise_distances(X[[pos]], prev_X).min()),
+                    "gt_affected_region": bool(row["gt_affected_region"]),
+                    "gt_concept_drift": bool(row["gt_concept_drift"]),
+                    "gt_event_class": str(row["gt_event_class"]),
+                })
+
+            for j, pos in enumerate(original_positions):
+                row = block.iloc[int(pos)]
+                detail_rows.append({
+                    "seed": seed,
+                    "chunk": chunk_id,
+                    "method": "mmd_critic_original",
+                    "t": int(row["t"]),
+                    "critic_position": int(pos),
+                    "x1": float(row["x1"]),
+                    "x2": float(row["x2"]),
+                    "y": int(row["y"]),
+                    "witness": float(original_witness[j]),
+                    "abs_witness": float(original_abs[j]),
+                    "nearest_previous_prototype_distance": float(
+                        pairwise_distances(X[[pos]], prev_X).min()
+                    ),
                     "gt_affected_region": bool(row["gt_affected_region"]),
                     "gt_concept_drift": bool(row["gt_concept_drift"]),
                     "gt_event_class": str(row["gt_event_class"]),
@@ -531,6 +642,10 @@ def run_one_stream(
             "c_mean_nearest_prototype_distance": c_distance,
             "c_criticism_reassignment_impact": c_reassignment,
             "c_criticism_fraction": c_fraction,
+            "c_mmd_original_mean_abs_witness": c_mmd_original_mean_abs_witness,
+            "c_mmd_original_mean_nearest_prototype_distance": c_mmd_original_mean_nearest_prototype_distance,
+            "c_mmd_original_criticism_reassignment_impact": c_mmd_original_criticism_reassignment_impact,
+            "c_mmd_original_criticism_fraction": c_mmd_original_criticism_fraction,
             "c_random_mean_abs_witness": random_witness,
             "c_random_in_affected_region_fraction": random_region_fraction,
             "c_error_mean_abs_witness": error_witness,
@@ -574,6 +689,9 @@ def run_one_stream(
         "c_mean_abs_witness",
         "c_mean_nearest_prototype_distance",
         "c_criticism_reassignment_impact",
+        "c_mmd_original_mean_abs_witness",
+        "c_mmd_original_mean_nearest_prototype_distance",
+        "c_mmd_original_criticism_reassignment_impact",
         "c_random_mean_abs_witness",
         "c_error_mean_abs_witness",
         "c_error_criticism_fraction",
@@ -762,7 +880,7 @@ def main():
         "racep_native": {"const": 3.0, "grace_period": 2 * ref_chunks},
         "adwin": {"delta": args.adwin_delta},
         "page_hinkley": {"delta": args.ph_delta, "threshold": args.ph_threshold, "alpha": args.ph_alpha, "min_instances": args.ph_min_instances, "mode": "up_when_supported"},
-        "c_signals": ["c_mean_abs_witness", "c_mean_nearest_prototype_distance", "c_criticism_reassignment_impact", "c_criticism_fraction"],
+        "c_signals": ["c_mean_abs_witness", "c_mean_nearest_prototype_distance", "c_criticism_reassignment_impact", "c_criticism_fraction", "c_mmd_original_mean_abs_witness", "c_mmd_original_mean_nearest_prototype_distance", "c_mmd_original_criticism_reassignment_impact", "c_mmd_original_criticism_fraction"],
         "software_versions": {"python": __import__("platform").python_version(), "river": _version("river"), "protree": _version("protree"), "numpy": _version("numpy"), "pandas": _version("pandas"), "scikit_learn": _version("scikit-learn")},
         "git_commit": _git_commit(),
         "note": "Validate API/output on profile=smoke before pilot/final; native RaceP alarm is also recorded at const=3.0.",
